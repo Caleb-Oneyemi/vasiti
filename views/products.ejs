@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+
+    <style>
+      .products {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .center {
+        text-align: center;
+      }
+      a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="center">Products</h1>
+
+    <div class="products">
+      <% products.map((p) => { %>
+      <div>
+        <h1><%= p.product_name %></h1>
+        <p><b>Description:</b> <%= p.product_description %></p>
+        <p><b>Created:</b> <%= p.date_uploaded %></p>
+        <p><b>Updated:</b> <%= p.date_edited %></p>
+        <button><a href="products/<%= p.id %>">View Product</a></button>
+
+        <br />
+        <h2>Varities</h2>
+        <div class="products">
+          <% p.productVarieties.map((pv) => { %>
+          <div>
+            <p><b>Size:</b> <%= pv.size %></p>
+            <p><b>Color:</b> <%= pv.color %></p>
+            <p><b>Quantity:</b> <%= pv.quantity %></p>
+            <p><b>Price:</b> <%= pv.price %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>

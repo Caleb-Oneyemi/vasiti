@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+
+    <style>
+      .product {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .center {
+        text-align: center;
+      }
+      a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="center">Product</h1>
+
+    <div>
+      <h1 class="name"><%= product.product_name %></h1>
+      <p class="description">
+        <b>Description:</b> <%= product.product_description %>
+      </p>
+      <p><b>Created:</b> <%= product.date_uploaded %></p>
+      <p><b>Updated:</b> <%= product.date_edited %></p>
+
+      <br />
+      <h2>Varities</h2>
+      <div class="product">
+        <% product.productVarieties.map((pv) => { %>
+        <div>
+          <p id="size<%= pv.id %>"><b>Size:</b> <%= pv.size %></p>
+          <p id="color<%= pv.id %>"><b>Color:</b> <%= pv.color %></p>
+          <p id="quantity<%= pv.id %>"><b>Quantity:</b> <%= pv.quantity %></p>
+          <p id="price<%= pv.id %>"><b>Price:</b> <%= pv.price %></p>
+          <button class="cart">Add to Cart</button>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <script>
+      const cartBtn = document.querySelectorAll('.cart');
+      let size, color, quantity, price;
+
+      let name = document.querySelector('.name').innerText;
+      let desc = document.querySelector('.description').childNodes[2].data;
+
+      const addToCart = (data) => {
+        console.log(data);
+      };
+
+      for (let i = 0; i < cartBtn.length; i++) {
+        cartBtn[i].addEventListener('click', (e) => {
+          size = document.querySelector(`#size${i + 1}`).childNodes[1].data;
+          color = document.querySelector(`#color${i + 1}`).childNodes[1].data;
+          quantity = document.querySelector(`#quantity${i + 1}`).childNodes[1]
+            .data;
+          price = document.querySelector(`#price${i + 1}`).childNodes[1].data;
+
+          const data = {
+            name: name.trim(),
+            desc: desc.trim(),
+            size: size.trim(),
+            color: color.trim(),
+            quantity: quantity.trim(),
+            price: price.trim(),
+          };
+
+          const cart = JSON.parse(localStorage.getItem('vasitiCart'));
+
+          if (!cart || cart?.length === 0) {
+            localStorage.setItem('vasitiCart', JSON.stringify([data]));
+          } else {
+            cart.push(data);
+            localStorage.setItem('vasitiCart', JSON.stringify(cart));
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
